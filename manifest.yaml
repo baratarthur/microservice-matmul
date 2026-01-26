@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app-deployment
+  labels:
+    app: flask-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+      - name: flask-container
+        # Substitua pela sua imagem no Docker Hub ou outro Registry
+        image: matmul-flask:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5050
+        env:
+        - name: FLASK_APP
+          value: "app.py"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: matmul-flask-app-service
+spec:
+  selector:
+    app: flask-app
+  ports:
+    - protocol: TCP
+      port: 5050
+      targetPort: 5050
+  type: LoadBalancer
