@@ -5,8 +5,6 @@ metadata:
   labels:
     app: flask-app
 spec:
-  minReplicas: 1
-  maxReplicas: 30
   selector:
     matchLabels:
       app: flask-app
@@ -20,6 +18,11 @@ spec:
         # Substitua pela sua imagem no Docker Hub ou outro Registry
         image: matmul-flask:latest
         imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: "100m"
+          limits:
+            cpu: "500m"
         ports:
         - containerPort: 5050
         env:
@@ -31,10 +34,10 @@ kind: Service
 metadata:
   name: matmul-flask-app-service
 spec:
+  type: LoadBalancer
   selector:
     app: flask-app
   ports:
     - protocol: TCP
       port: 5050
       targetPort: 5050
-  type: LoadBalancer
