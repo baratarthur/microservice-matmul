@@ -5,9 +5,15 @@ metadata:
   labels:
     app: flask-app
 spec:
+  replicas: 5
   selector:
     matchLabels:
       app: flask-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
   template:
     metadata:
       labels:
@@ -15,19 +21,36 @@ spec:
     spec:
       containers:
       - name: flask-container
-        # Substitua pela sua imagem no Docker Hub ou outro Registry
         image: matmul-flask:latest
         imagePullPolicy: IfNotPresent
-        resources:
-          requests:
-            cpu: "100m"
-          limits:
-            cpu: "500m"
         ports:
         - containerPort: 5050
         env:
         - name: FLASK_APP
           value: "app.py"
+        - name: PYTHONUNBUFFERED
+          value: "1" # Melhora a visualização de logs em tempo real
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+        # Verifica se o container está vivo
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5050
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        # Verifica se o container está pronto para receber tráfego
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5050
+          initialDelaySeconds: 5
+          periodSeconds: 10
 ---
 apiVersion: v1
 kind: Service
