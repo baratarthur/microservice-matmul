@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: flask-container
-        image: matmul-flask:latest
+        image: 192.168.5.20:5000/matmul-flask:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5050
