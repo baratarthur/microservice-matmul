@@ -1,0 +1,5 @@
+[host-gateway]
+  "my.private-registry.lan" = "192.168.5.20"
+[registry."my.private-registry.lan:5000"]
+  http = true
+  insecure = true
