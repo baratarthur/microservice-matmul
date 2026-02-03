@@ -1,4 +1,5 @@
 docker buildx create --use --config buildkitd.toml
+docker buildx inspect --bootstrap
 docker buildx build --platform linux/amd64,linux/arm64 -t my.private-registry.lan:5000/matmul-flask:latest --push .
 
 echo "Pushing image into local repository..."
