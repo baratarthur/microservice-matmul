@@ -3,3 +3,5 @@
 [registry."my.private-registry.lan:5000"]
   http = true
   insecure = true
+[worker.oci]
+  dns = ["host.docker.internal"]
