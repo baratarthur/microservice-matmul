@@ -22,7 +22,7 @@ spec:
       containers:
       - name: flask-container
         image: my.private-registry.lan:5000/matmul-flask:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 5050
         env:

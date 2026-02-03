@@ -3,6 +3,9 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
+@app.route('/', methods=['GET'])
+def home():
+    return jsonify({"message": "Welcome to the matrix multiplication service!"})
 
 @app.route('/multiply', methods=['POST'])
 def multiply_matrices():
