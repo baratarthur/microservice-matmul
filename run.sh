@@ -1,3 +1,7 @@
+echo "Deleting old Kubernetes resources..."
+kubectl delete -f hpa.yaml
+kubectl delete -f manifest.yaml
+
 docker buildx build \
         --platform linux/amd64,linux/arm \
         --provenance=false \
